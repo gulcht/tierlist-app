@@ -1,0 +1,56 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+// https://dbdiagram.io/d
+Table Users{
+    user_id bigint [primary key]
+    username varchar
+    email varchar
+    password varchar
+    user_image_url varchar
+    created_at timestamp
+}
+Table TierLists{
+    tierlist_id bigint [primary key]
+    name varchar
+    user_id bigint
+    created_at timestamp
+    description varchar
+}
+Table Tiers{
+    tier_id bigint [primary key]
+    name varchar
+}
+Table Items{
+    item_id bigint [primary key]
+    name varchar
+    description varchar
+    image_url varchar
+    category_id bigint
+}
+
+
+Table TierListItems{
+    tierlistitem_id bigint [primary key]
+    tierlist_id bigint
+    item_id bigint
+    tier_id bigint
+}
+
+
+Table Categories{
+    category_id bigint [primary key]
+    name varchar
+    description varchar
+}
+
+
+Ref: "Users"."user_id" < "TierLists"."user_id"
+
+Ref: "Items"."item_id" - "TierListItems"."item_id"
+
+Ref: "Categories"."category_id" <> "Items"."category_id"
+
+Ref: "Tiers"."tier_id" - "TierListItems"."tier_id"
+
+Ref: "TierLists"."tierlist_id" < "TierListItems"."tierlist_id"
